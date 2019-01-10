@@ -11,7 +11,8 @@ script:
   # switch to build directory
   - cd build
   # run cmake; here we assume that the project's top-level CMakeLists.txt is located at '..'
-  - cmake ..
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU
+  - cmake --build .
   - make ci_test
   - make tests
   #execute tests
