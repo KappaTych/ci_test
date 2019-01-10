@@ -11,7 +11,6 @@ addons:
     packages:
       - gcc-8
       - g++-8
-      - libboost-all-dev
 
 script:
   # Export CC and CXX to tell cmake which compiler to use
