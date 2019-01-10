@@ -1,11 +1,19 @@
 # Clone Google Test
-include(../cmake/googletest.cmake)
-fetch_googletest(
-        ${PROJECT_SOURCE_DIR}/cmake
-        ${PROJECT_BINARY_DIR}/googletest
-)
+#include(../../KappaDBMS/cmake/googletest.cmake)
+#fetch_googletest(
+#        ${PROJECT_SOURCE_DIR}/cmake
+#        ${PROJECT_BINARY_DIR}/googletest
+#)
 
-#add_subdirectory(lib/googletest)
+set(GOOGLETEST_DIR ${CMAKE_SOURCE_DIR}/tests/lib/googletest)
+if(NOT EXISTS ${GOOGLETEST_DIR})
+    find_package(Git REQUIRED)
+    execute_process(
+            COMMAND ${GIT_EXECUTABLE} clone https://github.com/google/googletest ${GOOGLETEST_DIR}
+    )
+endif()
+
+add_subdirectory(lib/googletest)
 enable_testing()
 
 add_executable(tests Test.cpp ../src/Printer.h)
