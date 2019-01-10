@@ -11,7 +11,7 @@ script:
   # switch to build directory
   - cd build
   # run cmake; here we assume that the project's top-level CMakeLists.txt is located at '..'
-#  - cmake -DCMAKE_BUILD_TYPE=Release ..
+  - cmake ..
   - make ci_test
   - make tests
   #execute tests
