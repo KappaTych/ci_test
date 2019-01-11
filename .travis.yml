@@ -1,45 +1,41 @@
 sudo: true
 dist: xenial
 language: cpp
-env:
-  global:
-    secure: SfoQj/+Zg7NC4IOWC6yAgqUA9Jyq0DD8SxdCmYz4aqTzsUYg2XwQPhHzO/yl2gpWyp7U+gHaxh6BKW9XSdqCXDaog4i1KMw+LFfkxzUYz80K9WTYASGpFtSZrY0xGQJD19qVoF+RqHg6IGLtuiM1voR+Mm7RP+kC6xHXX5UgvNqM7fUyNvWEr3eV8ejGR/vO2EmYv2HnVbWu3Ldfar/tqp8Wyfa6KOJByupH5ge3sZ5Q0kQomzcHho74CLLmijPIsjT4/+YwrhxeyNfVZEMXLYVNuHchIdTE4us/qJ8PrYz/590D/jHdqqoAdpPgLJgmpZuqE9HmtWmxJG8wdblXqlVTYGJhpY9AcOGh4xmaNyKM1ViR7wQ16X07Q0+j+HUdTh0j5Piy8MFHaYw/ItdGTEflUsRVPIWcQA2JGjDJLxSos5n83OKYdN9H6/2hHvlkiPLeBktG8JDc8zmauMZex2ZC9GS0Sk8YvTQO+ElAvFxg58jSZQMZ33d6zZLbf99aEHU2yl62taceKAc+NupgFR2YnjJFsOmx4VET3qxtptSj5KPIe4ycwHsefRC4jrF+xAg/uPOsb2DPxoX5R37M6dDMFUp3zRtqNaqp0bKBHQqpWtI0Ce/FgKz05mmKlEDE1cSy65D3aZ5lXsJPx0/X0NCGGHu6s4mxUc6APQXdXMs=
 
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-test
 git:
   submodules: false
 before_install:
-- sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-- git submodule update --init --recursive
-- pip install --user cpp-coveralls
-- 
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
+  - pip install --user cpp-coveralls
+  -
 script:
-- g++ -v && cmake --version
-- gcov -v
-- mkdir build
-- cd build
-- cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU -DCOVERALLS=ON
-- cmake --build .
-- "./tests/tests [implemented]"
+  - g++ -v && cmake --version
+  - gcov -v
+  - mkdir build
+  - cd build
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU -DCOVERALLS=ON
+  - cmake --build .
+  - "./tests/tests [implemented]"
 after_success:
-- ls
-- echo $TRAVIS_COMMIT
-- echo $TRAVIS_BRANCH
-- cd ..
-- |
-  coveralls --build-root build --gcov-options '\-lp' \
-   -e build/src/lib \
-   -e build/CMakeFiles \
-   -e build/CMakeFiles/feature_tests.c \
-   -e build/CMakeFiles/feature_tests.cxx \
-   -e src/lib \
-   -e tests \
-   -E ".*CMakeFiles.*" \
-   -E ".*lib.*"
-- curl -o /tmp/travis-automerge https://raw.githubusercontent.com/kappatych/travis-automerge/master/travis-automerge
-- chmod a+x /tmp/travis-automerge
-- BRANCHES_TO_MERGE_REGEX='^f.*' BRANCH_TO_MERGE_INTO=develop GITHUB_REPO=kappatych/ci_test
-  /tmp/travis-automerge
+  - ls
+  - echo $TRAVIS_COMMIT
+  - echo $TRAVIS_BRANCH
+  - cd ..
+  - |
+    coveralls --build-root build --gcov-options '\-lp' \
+     -e build/src/lib \
+     -e build/CMakeFiles \
+     -e build/CMakeFiles/feature_tests.c \
+     -e build/CMakeFiles/feature_tests.cxx \
+     -e src/lib \
+     -e tests \
+     -E ".*CMakeFiles.*" \
+     -E ".*lib.*"
+  - curl -o /tmp/travis-automerge https://raw.githubusercontent.com/kappatych/travis-automerge/master/travis-automerge
+  - chmod a+x /tmp/travis-automerge
+  - BRANCHES_TO_MERGE_REGEX='^f.*' BRANCH_TO_MERGE_INTO=develop GITHUB_REPO=kappatych/ci_test /tmp/travis-automerge
