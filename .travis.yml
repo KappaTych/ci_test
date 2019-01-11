@@ -7,7 +7,7 @@ addons:
       - ubuntu-toolchain-r-test
       -
 env:
-  secure: Bjd9TGXEGcMp+eSjhO+y1dFB597k53rsc7LnsETOS4peaN893IQAWBu5dRT5Jlk2HGM3xTArDCkRNKmNArrrDgK4Y4K6/H+g0reCvsawlUYnhRjf8u7J3IkuE9S4taixCdkcelOLcJml0dY7iM1XQJtzbABDvRaOXke0k/DrQhyre4R0TPHVm/3d7ETINYwlSend6iWPK9AzB28jRIs96/dVZlmtLcPtApQKD5u+xhYPvQSy+t5ylbxSqdpaQ6cYX2ySFjpK3HsYZG2OHAIC0cCDJMO/7pvlup9E5c6YfnKJEQQT/lFuLr6X87RuAXFl8IsSUhh2/yFU0GjKxBL312N/zynPdjKiEY9Egv3/yirRq4td4wb5zAlBvghiRnXFWYn/DN38gXDSFnhJr6xK/mS51/loGDARJuVZk3j6FjplzD9xE8yaq35O8OMvQDN/WsvAiW25X/Tt/4Y5Id6qpCCYwMDLWCcCFTMiuVdPt4b8dIF1X+7R3kYBQSoMDTIGHTlljzz76a8FErh1qnzJ0GN74FIVOY8WleaFlNfj8iP8BrGutr8apFDffcuhwnFTdw6IsNYkZiswOhGfse2Yj+aNSDYaAxF1XK7+WdGZks7XyejP/jHjOn/iLbJvnkENLcD1SQIcNCTXFhwEGxuoiVS3YxPdsp4gUgawMe/ufYs=
+  - secure: "F8/PRc5pUmMQUJNvFRjk9MZ4Jf2WZ/ITE7+LgxoG7f+fGrS5AGgZRCRAnLNLxxol0BZnj0Rt3zleFbDYG1svDdfX5GY1qyAkWOMVXhgRDYcCbr8eHhOdM8UxUUBT8aZo0QigiO6SVVl2Bsjkkbg/g4RXLq8dr6CRB3UBJpQymsBjdMKeZuQLOH9UhI/BNsP3HW+ZcU4lNvO8i41gjpTRVx5XWuGCOeh7DL426oKegQQ4hueGdnJNEVk8zHiLi+rZUDYLwDZcks4IQSRqMX8YsBLCnz2YfxrGpInTasZM0iCDZ+I2pGRunlqEFvh1wwtdh577U4jWzRJKH5cNQ6HqhsuA4GlI5OkQ+T9xpYo3EjcdPxbHcyAsGayBNPduJTgld6ghNa6bjqneN4+V8Z/3jRzokO9zc5VCAx+0oPoJQzZv6G6o3UFL09lufG9yfbz9J3DTc2Ml5FcofP/olPRy5HQUtEXB7o+zO5PN4gUWrBQfp9MKstPsAr4Qu1uRhqYyaY/2ggrZsmyCM9/xdxRFSgf8IPM/mMLgw4czCqN/qHttoXLSIvYSHzq4hBS9OfkzpiYiHITGVyeBxh/AY2wGUvl0maeY9WRL+W/r/ztEODn6bxvPbg9Ki2xTNByp1/PxwrBSmQNgnS8OK8OKUZwRLZMwkE5pOe1DB0WI8Mgllo8="
 
 git:
   submodules: false
@@ -39,5 +39,5 @@ after_success:
      -E ".*lib.*"
   - curl -o /tmp/travis-automerge https://raw.githubusercontent.com/kappatych/travis-automerge/master/travis-automerge
   - chmod a+x /tmp/travis-automerge
-  - BRANCHES_TO_MERGE_REGEX='^f.*' BRANCH_TO_MERGE_INTO=dev GITHUB_REPO=kappatych/ci_test
+  - BRANCHES_TO_MERGE_REGEX='^f.*' BRANCH_TO_MERGE_INTO=develop GITHUB_REPO=kappatych/ci_test
     /tmp/travis-automerge
