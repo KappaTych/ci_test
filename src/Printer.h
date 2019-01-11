@@ -12,7 +12,11 @@ public:
     std::string Print() {
         return "Hello, World!";
     }
-    std::string Print1() {
-        return "Hello, travis!";
+    std::string Print1(int i) {
+        if (i == 1){
+            return "Hello, travis!";
+        } else {
+            return "Hello, coveralls!";
+        }
     }
 };
