@@ -5,10 +5,6 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      -
-#env:
-#  - secure: "F8/PRc5pUmMQUJNvFRjk9MZ4Jf2WZ/ITE7+LgxoG7f+fGrS5AGgZRCRAnLNLxxol0BZnj0Rt3zleFbDYG1svDdfX5GY1qyAkWOMVXhgRDYcCbr8eHhOdM8UxUUBT8aZo0QigiO6SVVl2Bsjkkbg/g4RXLq8dr6CRB3UBJpQymsBjdMKeZuQLOH9UhI/BNsP3HW+ZcU4lNvO8i41gjpTRVx5XWuGCOeh7DL426oKegQQ4hueGdnJNEVk8zHiLi+rZUDYLwDZcks4IQSRqMX8YsBLCnz2YfxrGpInTasZM0iCDZ+I2pGRunlqEFvh1wwtdh577U4jWzRJKH5cNQ6HqhsuA4GlI5OkQ+T9xpYo3EjcdPxbHcyAsGayBNPduJTgld6ghNa6bjqneN4+V8Z/3jRzokO9zc5VCAx+0oPoJQzZv6G6o3UFL09lufG9yfbz9J3DTc2Ml5FcofP/olPRy5HQUtEXB7o+zO5PN4gUWrBQfp9MKstPsAr4Qu1uRhqYyaY/2ggrZsmyCM9/xdxRFSgf8IPM/mMLgw4czCqN/qHttoXLSIvYSHzq4hBS9OfkzpiYiHITGVyeBxh/AY2wGUvl0maeY9WRL+W/r/ztEODn6bxvPbg9Ki2xTNByp1/PxwrBSmQNgnS8OK8OKUZwRLZMwkE5pOe1DB0WI8Mgllo8="
-
 git:
   submodules: false
 before_install:
@@ -26,6 +22,8 @@ script:
   - "./tests/tests [implemented]"
 after_success:
   - ls
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_COMMIT
   - cd ..
   - |
     coveralls --build-root build --gcov-options '\-lp' \
@@ -39,5 +37,4 @@ after_success:
      -E ".*lib.*"
   - curl -o /tmp/travis-automerge https://raw.githubusercontent.com/kappatych/travis-automerge/master/travis-automerge
   - chmod a+x /tmp/travis-automerge
-  - BRANCHES_TO_MERGE_REGEX='^f.*' BRANCH_TO_MERGE_INTO=develop GITHUB_REPO=kappatych/ci_test
-    /tmp/travis-automerge
+  - BRANCHES_TO_MERGE_REGEX='^f.*' BRANCH_TO_MERGE_INTO=develop GITHUB_REPO=kappatych/ci_test /tmp/travis-automerge
