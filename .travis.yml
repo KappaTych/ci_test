@@ -3,42 +3,44 @@ dist: xenial
 language: cpp
 
 env:
-  - secure: "L6hKi9noKRXRZ3qWFc3GCNfIivcAa4rkdoQny37iewCwWK+iJcEjuwyJ3jn5Xg435CSxNo4dJqaAWRV9geL4be7NAs9Uzr6Rxdm+lN1hLKG2nI4zkyNELq9HXy8u7LaP8j4LrjtEoq4uqmO7rSZgIKPw59vRlmUQhzvxQP3lD8/u7vZNs0cAF1swSBRVEQaKMRh9vdII2XnLchUHo14rzOVRs8Ce75ICaUdvm7rs0kx76ZrwkXPGunTnyLF20ATTQ8/VaZzB6kEp8qs+Knj4pV9412SVg0PgnsngXneGxbQ2ZbJnjmc+/WqokVAAm1IywHC2vsJPPqBugLnNoZQci5RpnmA9aWoLz87Y7D9Nr8ZwhY9Hyd4n9YhUq5zWCKLHGadXTYIN/1HtzPJ2iQymDMc0d9fXNJ3KhNMGOQgn68qbjEEbSLknHSWzZ5Ww/1l54SsOgMimIcB4uO18uSIMetTQcw4VvAcs8ft8ERtIypDNZFUDI6fGr78BPM8ZaOfC0Ooz0pBA/vDk4SnfIIF6kDnQ/je7f5V+v8LHPKLxPx8COfFZJhN8rBn1ZobHoHfSnEIN+nKNHf6syQJGf8mxDXWk13KnI3aLiCjBfYArovfEt3PlIDsQdOKHy8oMe/3Ky3WjScJ/PQNTe7RAghL5RiovYxnmV2tepF3DJ/XbtJo="
+  global:
+    secure: Q57ez4LMF8UdOfARfnPbpEt4V8XH0MOOFc86Qm14Vv0Ihy4eV4tCrTIdAM3XnzIdJ/NEOGg8QRx9xgOHIP3HJ+mos7B6ToSqqmjvGW7TabfPLmYD1D64jYVhN4gSfUXnKsZuKaF4hOqXfV0/Dl09fDkIRWLxeDjY2njQcBKTi57+WxOdooWCDWMAq22FRdBNIVVL5vwafkUsL/REMrjNZNge61aA7PxKln1jxQ0+JpGS0v/WjtVUlMBPWBfiKxyn9ov+Cm+IcbenilsXwz6OKBYAiD/dx72v9aN9sijKjYmFYpXmNRzsl/uLsRNY7QXl8hvkZTRNhkZaWOrTLFdwBW+exWsEAzXCwBAOqSm9pb9AP0KzEIXDr6uyOofOeZ9rVSgwQ2RZueNSsKikH27CdDJV1OPkCfRAKcQh0dnT7KI7NzGeKu3YtXamxrwPjxCQA7GT7hXx5fP1uHOOwsrGpNYeSiUW37nC232lDMMh00079Ph0NDRK74pWDDf+37lTvXyCAQsNPQH1S0HH64gkiuNtJzsHl++s7zgSB0M/0OZsWrh+q+ZI6aLaOpMd4gKgCpskVfVJVkQiEUhV78OUqgoYeNRmharGbzAvZc6GQdHSO2NYKw2qjakXy8dB2tTuT6MAe6uKD+4n0nT2v3gc5os27cyKhA9YnhT8GUFzPJw=
 
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
 git:
   submodules: false
 before_install:
-  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-  - git submodule update --init --recursive
-  - pip install --user cpp-coveralls
-  -
+- sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+- git submodule update --init --recursive
+- pip install --user cpp-coveralls
+- 
 script:
-  - g++ -v && cmake --version
-  - gcov -v
-  - mkdir build
-  - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU -DCOVERALLS=ON
-  - cmake --build .
-  - "./tests/tests [implemented]"
+- g++ -v && cmake --version
+- gcov -v
+- mkdir build
+- cd build
+- cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU -DCOVERALLS=ON
+- cmake --build .
+- "./tests/tests [implemented]"
 after_success:
-  - ls
-  - echo $TRAVIS_COMMIT
-  - echo $TRAVIS_BRANCH
-  - cd ..
-  - |
-    coveralls --build-root build --gcov-options '\-lp' \
-     -e build/src/lib \
-     -e build/CMakeFiles \
-     -e build/CMakeFiles/feature_tests.c \
-     -e build/CMakeFiles/feature_tests.cxx \
-     -e src/lib \
-     -e tests \
-     -E ".*CMakeFiles.*" \
-     -E ".*lib.*"
-  - curl -o /tmp/travis-automerge https://raw.githubusercontent.com/kappatych/travis-automerge/master/travis-automerge
-  - chmod a+x /tmp/travis-automerge
-  - BRANCHES_TO_MERGE_REGEX='^f.*' BRANCH_TO_MERGE_INTO=develop GITHUB_REPO=kappatych/ci_test /tmp/travis-automerge
+- ls
+- echo $TRAVIS_COMMIT
+- echo $TRAVIS_BRANCH
+- cd ..
+- |
+  coveralls --build-root build --gcov-options '\-lp' \
+   -e build/src/lib \
+   -e build/CMakeFiles \
+   -e build/CMakeFiles/feature_tests.c \
+   -e build/CMakeFiles/feature_tests.cxx \
+   -e src/lib \
+   -e tests \
+   -E ".*CMakeFiles.*" \
+   -E ".*lib.*"
+- curl -o /tmp/travis-automerge https://raw.githubusercontent.com/kappatych/travis-automerge/master/travis-automerge
+- chmod a+x /tmp/travis-automerge
+- BRANCHES_TO_MERGE_REGEX='^f.*' BRANCH_TO_MERGE_INTO=develop GITHUB_REPO=kappatych/ci_test
+  /tmp/travis-automerge
