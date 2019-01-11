@@ -1,38 +1,36 @@
 sudo: true
 dist: xenial
 language: cpp
-
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
 
-# Handle git submodules yourself
+env:
+  secure:
+    - secure: 4xBM82Bov99QiUer8EbAnPSiAo9WqFBASNlXtoGtdJDmX84KQaVWa15j0mzeLE4oC0Ce6nBOie8GSSRafbfj7RpllLAz/ZuaTxOT4nA+Sy8dUl3DgmFSGe8IgvaZAd0EpFNUNZRIGgwALa2gZ9INC7w2XCVVjiwnT9fBbUP/Qn9Q/P/qhSbi7qHpqJXbk2jnuH8YGpcN6PaI0mhBJTK1pzBXphm8SdI3uEd1/6SEMT/A9vFOZsmwpoQw14c/PbEG4RlGZRecX9upUDzuw+rbWrVEM65XbbXydA0lJCOm8xNRbFouTWw+nTPlBc75AbX7lIBc17lbAyi29MRAsL+XUabC+Etk8EamR962PMWE00fP0WKfweT+23tA+J4C3whRahsUg2Kio9Nqu2KaJuIr/069b6GsdGjzKckWpiZe1iiBnB8z37BYxR2HAiizYdXLDNIHia2ML0RAomX4iCfBL/GEslpcFfQ8IkAZG0Q6XuYfTefawslW8+TOpQi+izvMYlyFoPVeTAocxJewwzhroVdPZYLbaoMYLij7ClgyJ5b7Tew2CkKyxN9Qsp1JDn9QAvYpOB9R4JgQuXGXgbQVDcmAtHRj1tIgbhqXjCJSoDjZ4iEIdOht3k9L3oDu+A3pmkda0wOu5dOomV4DuwnWMRgvsigccCYpbU8HxPqvzl4=
+    - secure: kbzJMU1WDujgcdOUHRRsdV2GzZznB98OnwPuCjpGAtS18bz9br7KWqKv7IPwAJSQ/rfBEItKCPI5neRlawJk51O18ynqmUkFV8lq50HApK0d1rQq5CFkhenbWeXBslcAfQ6U96vTpuTi63rNdMc9+bCJURyTT+/k3djAeu2p+uq07/Dvwy+zFDB3pxsFMTaVeJTxYiA0Y7AJCckvoB6VSCagV03ysQNy1CZi/vLPbknoe8yxHP9wVT79H3kyQWfDmBgK0aeQ0AyDty+f1FXAe9zhtobc50h5HslHaGlPrYniSMnydpKO5UFWmkrFofZTkn9g/9gmBILN6NrnOEkq24TgFEVYcuibI+wudy1JP41XvVGUhgbUSa/I8ynnIENYcaHktY5xpuS4hZAvxC2L0FG9a//Q6fSBCbExDohzV+/skseBo6Rat47blUOKDK/yEYco+n1Y3frQMtEplsYBY5SA9Dm4pJE+851LHBVLq7+pJcbzoTbE0dhntrcawaGRBgWTxdYamM3qFEPqAqHtaY8WXT46Psybuyfoh+2W/+LyXIO8aIMQUIwS43ZJVZDZZKNQP4b6hgVaWGXVvIqicSMXKwMNVkBVzOWfzkRsBbTpxf7BZrZjDVn4cciXa0esIHc4t/kBSVuQuBTl9nX6M6jn5+yahA+ZJr/Bi/La744=
+
+
 git:
   submodules: false
 
-# Use sed to replace the SSH URL with the public URL, then initialize submodules
 before_install:
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
   - pip install --user cpp-coveralls
-
+  -
 script:
   - g++ -v && cmake --version
   - gcov -v
-  # create a build folder for the out-of-source build
   - mkdir build
-  # switch to build directory
   - cd build
-  # run cmake; here we assume that the project's top-level CMakeLists.txt is located at '..'
   - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU -DCOVERALLS=ON
   - cmake --build .
-  #execute tests
-  - ./tests/tests [implemented]
+  - "./tests/tests [implemented]"
 
 after_success:
   - ls
-  #  - coveralls -h
   - cd ..
   - |
     coveralls --build-root build --gcov-options '\-lp' \
@@ -44,3 +42,6 @@ after_success:
      -e tests \
      -E ".*CMakeFiles.*" \
      -E ".*lib.*"
+  - curl -o /tmp/travis-automerge https://raw.githubusercontent.com/kappatych/travis-automerge/master/travis-automerge
+  - chmod a+x /tmp/travis-automerge
+  - BRANCHES_TO_MERGE_REGEX='^f.*' BRANCH_TO_MERGE_INTO=dev GITHUB_REPO=kappatych/ci_test /tmp/travis-automerge
