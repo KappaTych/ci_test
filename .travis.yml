@@ -22,8 +22,8 @@ script:
   - "./tests/tests [implemented]"
 after_success:
   - ls
-  - echo $TRAVIS_BRANCH
   - echo $TRAVIS_COMMIT
+  - echo $TRAVIS_BRANCH
   - cd ..
   - |
     coveralls --build-root build --gcov-options '\-lp' \
