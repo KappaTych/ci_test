@@ -1,10 +1,4 @@
 # Clone Google Test
-#include(../../KappaDBMS/cmake/googletest.cmake)
-#fetch_googletest(
-#        ${PROJECT_SOURCE_DIR}/cmake
-#        ${PROJECT_BINARY_DIR}/googletest
-#)
-
 set(GOOGLETEST_DIR ${CMAKE_SOURCE_DIR}/tests/lib/googletest)
 if(NOT EXISTS ${GOOGLETEST_DIR})
     find_package(Git REQUIRED)
@@ -17,4 +11,9 @@ add_subdirectory(lib/googletest)
 enable_testing()
 
 add_executable(tests Test.cpp ../src/Printer.h)
-target_link_libraries(tests gtest gtest_main)
+target_link_libraries(tests PRIVATE gtest gtest_main)
+
+if (COVERALLS)
+    target_compile_options(tests PRIVATE --coverage)
+    target_link_libraries(tests PRIVATE --coverage)
+endif()

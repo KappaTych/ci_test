@@ -3,6 +3,8 @@ project(ci_test)
 
 set(CMAKE_CXX_STANDARD 11)
 
+option(COVERALLS "tests coverage" ON)
+
 add_subdirectory(tests)
 
 add_executable(${PROJECT_NAME} src/main.cpp src/Printer.h)

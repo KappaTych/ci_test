@@ -6,9 +6,6 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-    packages:
-      - gcc-8
-      - g++-8
 
 # Handle git submodules yourself
 git:
@@ -18,18 +15,31 @@ git:
 before_install:
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
+  - pip install --user cpp-coveralls
 
 script:
-  # Export CC and CXX to tell cmake which compiler to use
-  - export CC=gcc-8
-  - export CXX=g++-8
   - g++ -v && cmake --version
   # create a build folder for the out-of-source build
   - mkdir build
   # switch to build directory
   - cd build
   # run cmake; here we assume that the project's top-level CMakeLists.txt is located at '..'
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU -DCOVERALLS=ON
   - cmake --build .
   #execute tests
   - ./tests/tests [implemented]
+
+  after_success:
+    - ls
+    #  - coveralls -h
+    - cd ..
+    - |
+      coveralls --build-root build --gcov-options '\-klp' \
+       -e build/src/lib \
+       -e build/CMakeFiles \
+       -e build/CMakeFiles/feature_tests.c \
+       -e build/CMakeFiles/feature_tests.cxx \
+       -e src/lib \
+       -e tests \
+       -E ".*CMakeFiles.*" \
+       -E ".*lib.*"

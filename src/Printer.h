@@ -12,4 +12,7 @@ public:
     std::string Print() {
         return "Hello, World!";
     }
+    std::string Print1() {
+        return "Hello, travis!";
+    }
 };
