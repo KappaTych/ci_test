@@ -34,7 +34,7 @@ after_success:
   #  - coveralls -h
   - cd ..
   - |
-    coveralls --build-root build --gcov-options '\-klp' \
+    coveralls --build-root build --gcov-options '\-adflp' \
      -e build/src/lib \
      -e build/CMakeFiles \
      -e build/CMakeFiles/feature_tests.c \
