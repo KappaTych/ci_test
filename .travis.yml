@@ -19,6 +19,7 @@ before_install:
 
 script:
   - g++ -v && cmake --version
+  - gcov -v
   # create a build folder for the out-of-source build
   - mkdir build
   # switch to build directory
@@ -34,7 +35,7 @@ after_success:
   #  - coveralls -h
   - cd ..
   - |
-    coveralls --build-root build --gcov-options '\-adflp' \
+    coveralls --build-root build --gcov-options '\-lp' \
      -e build/src/lib \
      -e build/CMakeFiles \
      -e build/CMakeFiles/feature_tests.c \
