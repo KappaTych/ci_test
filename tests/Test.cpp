@@ -26,5 +26,5 @@ TEST_F(SampleTestFixture, sampleTest) {
 }
 
 TEST_F(SampleTestFixture, sampleTest1) {
-    ASSERT_EQ(obj.Print(), "Hello, travis!");
+    ASSERT_EQ(obj.Print1(), "Hello, travis!");
 }
