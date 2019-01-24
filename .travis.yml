@@ -33,6 +33,7 @@ after_success:
   - ls
   - echo $TRAVIS_COMMIT
   - echo $TRAVIS_BRANCH
+  - echo $GITHUB_SECRET_TOKEN
   - cd ..
   - |
     coveralls --build-root build --gcov-options '\-lp' \
