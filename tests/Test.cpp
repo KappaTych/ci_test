@@ -16,8 +16,6 @@ public:
     static void SetUpTestCase() {
     }
 
-
-
     virtual void TearDown() {};
 
     static void TearDownTestCase() {};
